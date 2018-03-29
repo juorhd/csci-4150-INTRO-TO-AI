@@ -1,0 +1,249 @@
+\documentclass[]{article}
+\usepackage{datetime}
+\usepackage{color,array,graphics}
+\usepackage{enumerate}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{geometry}
+\usetikzlibrary{arrows,automata}
+\usetikzlibrary{patterns}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepgfplotslibrary{statistics}
+\usepackage{listings}
+
+
+\setlength{\textheight}{9in}
+\setlength{\textwidth}{6.5in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\evensidemargin}{0in}
+\voffset0.0in
+
+\def\OR{\vee}
+\def\AND{\wedge}
+\def\imp{\rightarrow}
+\def\math#1{$#1$}
+\def\mand#1{$$#1$$}
+\def\mld#1{\begin{equation}
+#1
+\end{equation}}
+\def\eqar#1{\begin{eqnarray}
+#1
+\end{eqnarray}}
+\def\eqan#1{\begin{eqnarray*}
+#1
+\end{eqnarray*}}
+\def\cl#1{{\cal #1}}
+
+\DeclareSymbolFont{AMSb}{U}{msb}{m}{n}
+\DeclareMathSymbol{\N}{\mathbin}{AMSb}{"4E}
+\DeclareMathSymbol{\Z}{\mathbin}{AMSb}{"5A}
+\DeclareMathSymbol{\R}{\mathbin}{AMSb}{"52}
+\DeclareMathSymbol{\Q}{\mathbin}{AMSb}{"51}
+\DeclareMathSymbol{\I}{\mathbin}{AMSb}{"49}
+\DeclareMathSymbol{\C}{\mathbin}{AMSb}{"43}
+
+\begin{document}
+\rightline{Dong Hu}
+\centerline{\bf \Large HOMEWORK 1} 
+
+\medskip
+\section{CSP}
+\subsection*{Problem 1}
+Consider the problem of placing $k$ knights on an $n\times n$ chessboard such that no two knights are attacking each other, where $k$ is given and $k\leq n^2$
+\begin{enumerate}[a.]
+\item Choose a CSP formulation. In your formulation, what are the variables?
+\par \textbf{Answer: }The variables are the positions on the $n\times n$ chessboard.
+\item What are the possible values of each variable?
+\par \textbf{Answer: }The possible values of each variable are either True of False. The value is True if the position is occupied my a knight, False otherwise.
+\item What sets of variables are constrained, and how?
+\par \textbf{Answer: }Every pair of squares separated by a knights move is constrained, such that both cannot be occupied. Furthermore, the entire set of squares is constrained, such that the total number of occupied squares should be $k$.
+\end{enumerate} .
+
+\section{Probability}
+\subsection*{Problem 2}
+Prove the chain rule. That is, for any probabilistic model composed of random variables $X_1,\dots, X_n$ and any values $x_1,\dots, x_n$, we have:
+$$p(x_1, \dots, x_n) = \prod_{i=1}^{n} p\left(x_i|x_1, \dots, x_{i-1}\right)$$
+We use prove by induction to complete the proof.
+\begin{enumerate}[1.]
+\item Base Case: $n = 2$
+$$p(x_1, x_2) = p(x_2|x_1)p(x_1) = \prod_{i = 1}^2 p\left(x_i|x_1, \dots, x_{i-1}\right)$$
+\item Induction Step:
+\par We first suppose the statement is true for $p(x_1, \dots, x_k) =\prod_{i=1}^{k} p\left(x_i|x_1, \dots, x_{i-1}\right) $, then we want to prove that it still holds true for $p(x_1, \dots, x_{k+1})=\prod_{i=1}^{k+1} p\left(x_i|x_1, \dots, x_{i-1}\right)$,  where $2\leq k< n$.
+\par Suppose $p(x_1, \dots, x_k) = p(a) = \prod_{i=1}^{k} p\left(x_i|x_1, \dots, x_{i-1}\right)$, by the defination of product rule,
+\begin{align*}
+p(x_1, \dots, x_{k+1}) &= p(a, x_{k+1}) 
+= p(x_{k+1}|a)p(a) \\
+&= p(x_{k+1}|x_1,\dots, x_k)\prod_{i=1}^{k} p\left(x_i|x_1, \dots, x_{i-1}\right) \\
+&= \prod_{i=1}^{k+1} p\left(x_i|x_1, \dots, x_{i-1}\right)
+\end{align*}
+\item Conclusion:
+\par Since we successfully prove the base case, and prove that $p(x_1, \dots, x_k) =\prod_{i=1}^{k} p\left(x_i|x_1, \dots, x_{i-1}\right) $ implies $p(x_1, \dots, x_{k+1})=\prod_{i=1}^{k+1} p\left(x_i|x_1, \dots, x_{i-1}\right)$. \hfill $\blacksquare$
+\end{enumerate}
+
+\subsection*{Problem 3}
+Prove that the two definitions of conditional independence of random variables are equivalent. Let $X, Y , Z$ be random variables. The two definitions are:
+\begin{itemize}
+\item Definition 1: $X$ and $Y$ are conditionally independent given $Z$ if for any value $x$ of $X$,any value $y$ of $Y$, and any value $z$ of $Z$, the following holds: $p(x,y|z) = p(x|z)\times p(y|z)$.
+\item Definition 2: $X$ and $Y$ are conditionally independent given $Z$ if for any value $x$ of $X$, any value $y$ of $Y$, and any value $z$ of $Z$, the following holds: $p(x|y, z) = p(x|z)$.
+\end{itemize}
+
+$$p(x, y|z) = \frac{p(x, y, z)}{p(z)} = \frac{p(x|y, z)\times p(y, z)}{p(z)} = p(x|y, z)\times\frac{p(y, z)}{p(z)} = p(x|y, z)\times p(y|z)$$
+Apply definition 2 on the above equation:
+$$p(x|y, z) = p(x|y, z)\times p(y|z) = p(x|z)\times p(y|z)$$
+The result consists with definition 1, Hence they are equivalent. \hfill $\blacksquare$
+
+
+\subsection*{Problem 4}
+ Let $X, Y, Z$ be random variables. Prove or disprove the following statements. (That means, you need to either write down a formal proof, or give a counterexample.)
+ \begin{itemize}
+ \item Statement 1: If $X$ and $Y$ are (unconditionally) independent, is it true that $X$ and $Y$ are conditionally independent given $Z$?
+\par \textbf{Answer: }False.
+\par $X\rightarrow Z\leftarrow Y$, where $X$ and $Y$ are unconditionally independent, wheares they are dependent after $Z$ is given.
+ \item Statement 2: If $X$ and $Y$ are conditionally independent given $Z$, is it true that $X$ and $Y$ are (unconditionally) independent?
+ \par \textbf{Answer: }False.
+ \par $X\leftarrow Z\rightarrow Y$, where $X$ and $Y$ are conditionally independent when $Z$ is given, however they are unconditionally dependent.
+ \end{itemize}
+ 
+ 
+ \section*{Bayesian networks}
+ \subsection*{Problem 5}
+\begin{enumerate}[1.]
+\item  Conditional dependence. Active path: $T\leftarrow I \rightarrow U$
+\item  Conditional dependence. Active path: $T\rightarrow \underline E \leftarrow U$
+\item Conditional independence. No active path between $T$ and $U$
+\item  Conditional dependence. Active path: $E\leftarrow T \leftarrow I \rightarrow \underline U \leftarrow H$
+\item Conditional independence. No active path between $E$ and $H$
+\item  Conditional dependence. Active path: $I\rightarrow U \leftarrow H$ \\\hspace*{190pt} $\downarrow$\\\hspace*{188pt} $ \underline E$
+\item Conditional independence. No active path between $I$ and $H$
+\item Conditional independence. No active path between $T$ and $H$
+\item  Conditional dependence. Active path: $T\rightarrow \underline E \leftarrow U \leftarrow H$
+\item  Conditional dependence. Active path: $T\leftarrow I \rightarrow \underline U \leftarrow H$
+\end{enumerate}
+
+\subsection*{Problem 6}
+Since $$P(+u|+e) = \frac {P(+u, +e)}{p(+e)}$$ \\
+So we Calculate $P(+u|+e)$ first\\
+
+\begin{equation} 
+\begin{split}
+P(+u|+e) & = \sum_{i,t,h}(+u,+e,i,t,h) \\
+ & = \sum_{i,t,h}P(i)\cdot P(t|i)\cdot P(+u|i,h)\cdot P(h)\cdot P(+e|+u,t) \\
+ & = \sum_{h}P(h) \sum_{i}P(i) \cdot P(+u|i,h)\cdot \sum_{t}P(t|i)\cdot P(+e|+u,t)
+\end{split}
+\end{equation}
+\\
+So if we take $$f_2(h,i) = \sum_{t}P(t|i)\cdot P(+e|+u,t)$$ \\
+\begin{equation} 
+\begin{split}
+f_2(h,+i) & = P(+t|+i)\cdot P(+e|+u,+t)+P(-t|+i)\cdot P(+e|+u,-t) \\
+ & = 0.8\cdot 0.9+0.2\cdot 0.7 \\
+ & = 0.86
+\end{split}
+\end{equation}
+
+\begin{equation} 
+\begin{split}
+f_2(h,-i) & = P(+t|-i)\cdot P(+e|+u,+t)+P(-t|-i)\cdot P(+e|+u,-t) \\
+ & = 0.5\cdot 0.9+0.5\cdot 0.7 \\
+ & = 0.80
+\end{split}
+\end{equation}
+
+Also $$f_1(h) = \sum_{i}P(i) \cdot P(+u|i,h)\cdot f_2(h,i)$$ \\
+\begin{equation} 
+\begin{split}
+f_1(+h) & = P(+i) \cdot P(+u|+i,+h)\cdot f_2(+h,+i)+P(-i) \cdot P(+u|-i,+h)\cdot f_2(+h,-i) \\
+ & = 0.7\cdot 0.9\cdot 0.86+0.3\cdot 0.5\cdot 0.80 \\
+ & = 0.6618
+\end{split}
+\end{equation}
+
+\begin{equation} 
+\begin{split}
+f_1(-h) & = P(+i) \cdot P(+u|+i,-h)\cdot f_2(-h,+i)+P(-i) \cdot P(+u|-i,-h)\cdot f_2(-h,-i) \\
+ & = 0.7\cdot 0.3\cdot 0.86+0.3\cdot 0.1\cdot 0.80 \\
+ & = 0.2046
+\end{split}
+\end{equation}
+\\
+Then
+\begin{equation} 
+\begin{split}
+P(+u,+e) & = \sum_{h}P(h)\cdot f_1(h) \\
+ & = p(+h)\cdot f_1(+h) + p(-h)\cdot f_1(-h) \\
+ & = 0.6\cdot 0.6618+0.4\cdot 0.2046 \\
+ & = 0.47892
+\end{split}
+\end{equation}
+
+Then we Calculate $P(-u|+e)$ \\\\
+
+\begin{equation} 
+\begin{split}
+P(-u|+e) & = \sum_{i,t,h}(-u,+e,i,t,h) \\
+ & = \sum_{i,t,h}P(i)\cdot P(t|i)\cdot P(-u|i,h)\cdot P(h)\cdot P(+e|-u,t) \\
+ & = \sum_{h}P(h) \sum_{i}P(i) \cdot P(-u|i,h)\cdot \sum_{t}P(t|i)\cdot P(+e|-u,t)
+\end{split}
+\end{equation}
+\\
+So if we take $$f_2(h,i) = \sum_{t}P(t|i)\cdot P(+e|-u,t)$$ \\
+\begin{equation} 
+\begin{split}
+f_2(h,+i) & = P(+t|+i)\cdot P(+e|-u,+t)+P(-t|+i)\cdot P(+e|-u,-t) \\
+ & = 0.8\cdot 0.5+0.2\cdot 0.3 \\
+ & = 0.46
+\end{split}
+\end{equation}
+
+\begin{equation} 
+\begin{split}
+f_2(h,-i) & = P(+t|-i)\cdot P(+e|-u,+t)+P(-t|-i)\cdot P(+e|-u,-t) \\
+ & = 0.5\cdot 0.5+0.5\cdot 0.3 \\
+ & = 0.4
+\end{split}
+\end{equation}
+
+Also $$f_1(h) = \sum_{i}P(i) \cdot P(-u|i,h)\cdot f_2(h,i)$$ \\
+\begin{equation} 
+\begin{split}
+f_1(+h) & = P(+i) \cdot P(-u|+i,+h)\cdot f_2(+h,+i)+P(-i) \cdot P(-u|-i,+h)\cdot f_2(+h,-i) \\
+ & = 0.7\cdot 0.1\cdot 0.46+0.3\cdot 0.5\cdot 0.40 \\
+ & = 0.0922
+\end{split}
+\end{equation}
+
+\begin{equation} 
+\begin{split}
+f_1(-h) & = P(+i) \cdot P(-u|+i,-h)\cdot f_2(-h,+i)+P(-i) \cdot P(-u|-i,-h)\cdot f_2(-h,-i) \\
+ & = 0.7\cdot 0.7\cdot 0.46+0.3\cdot 0.9\cdot 0.40 \\
+ & = 0.3334
+\end{split}
+\end{equation}
+\\
+Then
+\begin{equation} 
+\begin{split}
+P(-u,+e) & = \sum_{h}P(h)\cdot f_1(h) \\
+ & = P(+h)\cdot f_1(+h) + p(-h)\cdot f_1(-h) \\
+ & = 0.6\cdot 0.0922+0.4\cdot 0.3334 \\
+ & = 0.18868
+\end{split}
+\end{equation}
+\\
+Then
+\begin{equation} 
+\begin{split}
+P(+e) & = P(+u)\cdot P(+e|+u) + P(-u)\cdot P(+e|-u) \\
+ & = P(+u,+e) + P(-u,+e) \\
+ & = 0.18868 + 0.47892 \\
+ & = 0.6676
+\end{split}
+\end{equation}
+
+Hence $$P(+u|+e) = \frac {P(+u, +e)}{P(+e)} = 0.7112 $$
+
+\end{document}
